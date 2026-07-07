@@ -1,0 +1,10 @@
+.git
+__pycache__
+*.log
+*.pyc
+.env
+k8s/
+docker/
+runtime/*.zip
+runtime/*.tar
+node_modules

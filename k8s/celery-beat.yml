@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-beat
+  namespace: eda-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-beat
+  template:
+    metadata:
+      labels:
+        app: celery-beat
+    spec:
+      containers:
+      - name: celery-beat
+        image: eda-celery-beat:latest
+        command: ["celery"]
+        args: ["-A", "core.celery_config.celery", "beat", "--loglevel=info", "--scheduler", "redbeat.schedulers.RedBeatScheduler"]
+        envFrom:
+        - configMapRef:
+            name: eda-config
+        - secretRef:
+            name: eda-secret

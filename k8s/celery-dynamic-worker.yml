@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-dynamic-worker
+  namespace: eda-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-dynamic-worker
+  template:
+    metadata:
+      labels:
+        app: celery-dynamic-worker
+    spec:
+      containers:
+      - name: celery
+        image: eda-celery-worker:latest
+        command: ["celery"]
+        args: ["-A", "tasks.dynamic_tasks.celery", "worker", "-l", "info", "-Q", "dynamic_queue"]
+        envFrom:
+        - configMapRef:
+            name: eda-config
+        - secretRef:
+            name: eda-secret

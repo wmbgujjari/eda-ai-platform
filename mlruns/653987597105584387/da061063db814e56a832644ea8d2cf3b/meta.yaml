@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/EDAFrameWork/EDAProject/mlruns/653987597105584387/da061063db814e56a832644ea8d2cf3b/artifacts
+end_time: 1763118976489
+entry_point_name: ''
+experiment_id: '653987597105584387'
+lifecycle_stage: active
+run_id: da061063db814e56a832644ea8d2cf3b
+run_name: dashing-pig-604
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763118976329
+status: 3
+tags: []
+user_id: appalaraju.g

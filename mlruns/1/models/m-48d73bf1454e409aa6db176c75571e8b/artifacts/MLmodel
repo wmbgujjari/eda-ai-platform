@@ -1,0 +1,30 @@
+artifact_path: file:///E:/EDAFrameWork/EDAProject/mlruns/1/models/m-48d73bf1454e409aa6db176c75571e8b/artifacts
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.11.9
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.16.1
+    model_type: keras
+    save_format: tf
+is_signature_from_type_hint: false
+mlflow_version: 3.5.1
+model_id: m-48d73bf1454e409aa6db176c75571e8b
+model_size_bytes: 488655
+model_uuid: m-48d73bf1454e409aa6db176c75571e8b
+prompts: null
+run_id: f85d101b79134c0cba55d9a6fba4e051
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1, 7,
+    1]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-12-04 07:19:36.322127'

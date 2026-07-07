@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service
+  namespace: eda-namespace
+spec:
+  type: NodePort         # <-- change here
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30080    # optional, or let Kubernetes assign automatically
+  selector:
+    app: eda-fastapi

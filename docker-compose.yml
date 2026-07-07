@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7
+    container_name: eda-redis
+    ports:
+      - "6379:6379"
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.0
+    container_name: eda-mlflow
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root /mlruns
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+      - ./mlflow.db:/mlflow.db
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: docker/fastapi.Dockerfile
+    container_name: eda-fastapi
+    command: uvicorn FG.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./FG:/FG
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - mlflow
+
+  celery-daily-demand:
+    build:
+      context: .
+      dockerfile: docker/fastapi.Dockerfile
+    container_name: eda-celery-daily-demand
+    command: >
+      celery -A FG.tasks.daily_demand_tasks
+      worker -l info
+      -Q daily_demand_queue
+      --concurrency=2
+      --prefetch-multiplier=1
+    volumes:
+      - ./FG:/FG
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - mlflow

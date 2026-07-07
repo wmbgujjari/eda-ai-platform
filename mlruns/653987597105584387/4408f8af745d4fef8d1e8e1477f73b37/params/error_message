@@ -1,0 +1,6 @@
+Graph execution error:
+
+Detected at node sequential_1/lstm_1/while/body/_1/sequential_1/lstm_1/while/lstm_cell_1/MatMul defined at (most recent call last):
+<stack traces unavailable>
+Matrix size-incompatible: In[0]: [1,15], In[1]: [1,256]
+	 [[{{node sequential_1/lstm_1/while/body/_1/sequential_1/lstm_1/while/lstm_cell_1/MatMul}}]] [Op:__inference_one_step_on_data_distributed_1065095]

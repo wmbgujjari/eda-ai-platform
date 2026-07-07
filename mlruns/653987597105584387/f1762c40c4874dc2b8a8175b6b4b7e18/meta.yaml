@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/EDAFrameWork/EDAProject/mlruns/653987597105584387/f1762c40c4874dc2b8a8175b6b4b7e18/artifacts
+end_time: 1763118093534
+entry_point_name: ''
+experiment_id: '653987597105584387'
+lifecycle_stage: active
+run_id: f1762c40c4874dc2b8a8175b6b4b7e18
+run_name: LSTM_Section_806-14431_20251114_153806
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763114886513
+status: 3
+tags: []
+user_id: appalaraju.g

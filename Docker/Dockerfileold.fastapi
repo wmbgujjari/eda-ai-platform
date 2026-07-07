@@ -1,0 +1,76 @@
+FROM python:3.11-slim
+
+# --------------------------------------------------
+# Workdir
+# --------------------------------------------------
+WORKDIR /app
+
+# --------------------------------------------------
+# Environment
+# --------------------------------------------------
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app
+
+# --------------------------------------------------
+# System dependencies
+# --------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    libgomp1 \
+    libstdc++6 \
+    libgcc-s1 \
+    libaio1t64 \
+    procps \
+    unzip \
+    wget \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------
+# Java (Linux JDK only)
+# --------------------------------------------------
+COPY runtime/zulu11.72.19-ca-jdk11.0.23-linux_x64.tar.gz /tmp/jdk.tar.gz
+
+RUN mkdir -p /opt/jdk && \
+    tar -xzf /tmp/jdk.tar.gz -C /opt/jdk --strip-components=1 && \
+    rm /tmp/jdk.tar.gz
+
+ENV JAVA_HOME=/opt/jdk
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# --------------------------------------------------
+# Spark
+# --------------------------------------------------
+COPY runtime/spark-3.5.5-bin-hadoop3 /opt/spark
+ENV SPARK_HOME=/opt/spark
+ENV PATH="${SPARK_HOME}/bin:${PATH}"
+
+# --------------------------------------------------
+# Hadoop
+# --------------------------------------------------
+COPY runtime/hadoop /opt/hadoop
+ENV HADOOP_HOME=/opt/hadoop
+ENV PATH="${HADOOP_HOME}/bin:${PATH}"
+
+# --------------------------------------------------
+# Oracle Instant Client
+# --------------------------------------------------
+COPY runtime/instantclient_21_9 /opt/oracle/instantclient_21_9
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_9
+
+# --------------------------------------------------
+# Python dependencies
+# --------------------------------------------------
+COPY requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r /app/requirements.txt
+
+# --------------------------------------------------
+# Application code
+# --------------------------------------------------
+COPY FG /app/FG
+
+# --------------------------------------------------
+# FastAPI entrypoint
+# --------------------------------------------------
+CMD ["uvicorn", "FG.main:app", "--host", "0.0.0.0", "--port", "8000"]

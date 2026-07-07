@@ -1,0 +1,45 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app
+
+# --------------------------------------------------
+# Minimal system runtime deps
+# --------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    libstdc++6 \
+    libaio1t64 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------------
+# Oracle Instant Client
+# --------------------------------------------------
+COPY runtime/instantclient_21_9 /opt/oracle/instantclient_21_9
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_9
+
+# --------------------------------------------------
+# Python dependencies
+# --------------------------------------------------
+COPY requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir --prefer-binary -r /app/requirements.txt
+
+# --------------------------------------------------
+# Application code
+# --------------------------------------------------
+COPY FG /app/FG
+
+# --------------------------------------------------
+# Gunicorn (production)
+# --------------------------------------------------
+#CMD ["gunicorn", "FG.main:app", "-k", "uvicorn.workers.UvicornWorker", "--workers", "2", "--bind", "0.0.0.0:8000", "--timeout", "120"]
+
+# --------------------------------------------------
+# uvicorn (DEV)
+# --------------------------------------------------
+CMD ["uvicorn", "FG.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/EDAFrameWork/EDAProject/mlruns/653987597105584387/2608d7f5065c46a09f980277547aecf7/artifacts
+end_time: 1763362486922
+entry_point_name: ''
+experiment_id: '653987597105584387'
+lifecycle_stage: active
+run_id: 2608d7f5065c46a09f980277547aecf7
+run_name: WeatherFetch_20251117_122446
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763362486762
+status: 3
+tags: []
+user_id: appalaraju.g

@@ -1,0 +1,11 @@
+artifact_location: file:///E:/EDAFrameWork/EDAProject/mlruns/653987597105584387/models/m-fc24ff6a954b403cad474dcc73471698/artifacts
+creation_timestamp: 1763100227805
+experiment_id: '653987597105584387'
+last_updated_timestamp: 1763100227805
+lifecycle_stage: active
+model_id: m-fc24ff6a954b403cad474dcc73471698
+model_type: null
+name: model
+source_run_id: 7532166ae66d4f249449d94915e46e91
+status: 1
+status_message: null

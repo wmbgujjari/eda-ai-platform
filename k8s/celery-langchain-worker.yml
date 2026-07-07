@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-langchain-worker
+  namespace: eda-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-langchain-worker
+  template:
+    metadata:
+      labels:
+        app: celery-langchain-worker
+    spec:
+      containers:
+      - name: celery
+        image: eda-celery-worker:latest
+        command: ["celery"]
+        args: ["-A", "tasks.langchain_tasks.celery", "worker", "-l", "info", "-Q", "langchain_queue"]
+        envFrom:
+        - configMapRef:
+            name: eda-config
+        - secretRef:
+            name: eda-secret

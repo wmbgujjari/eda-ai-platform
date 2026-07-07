@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eda-fastapi
+  namespace: eda-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: eda-fastapi
+  template:
+    metadata:
+      labels:
+        app: eda-fastapi
+    spec:
+      containers:
+      - name: fastapi
+        image: eda-fastapi:latest
+        imagePullPolicy: IfNotPresent   # 🔥 REQUIRED
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: eda-config
+        - secretRef:
+            name: eda-secret
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "2"
+            memory: "4Gi"

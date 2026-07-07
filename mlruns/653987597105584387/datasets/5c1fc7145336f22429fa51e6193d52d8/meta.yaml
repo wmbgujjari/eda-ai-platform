@@ -1,0 +1,10 @@
+digest: 0cbaeeeb
+name: dataset
+profile: '{"features_shape": [645, 7, 1], "features_size": 4515, "features_nbytes":
+  36120, "targets_shape": [645], "targets_size": 645, "targets_nbytes": 5160}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"float64\", \"shape\": [-1, 7, 1]}}]", "targets": "[{\"type\": \"tensor\",
+  \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1]}}]"}}'
+source: '{"tags": {"mlflow.user": "appalaraju.g", "mlflow.source.name": "E:\\Programs\\Python\\Python311\\Scripts\\celery",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

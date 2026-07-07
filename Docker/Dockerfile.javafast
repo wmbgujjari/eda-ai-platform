@@ -1,0 +1,12 @@
+# Use valid OpenJDK slim image
+FROM eclipse-temurin:17-jdk-jammy
+
+# Set JAVA_HOME
+ENV JAVA_HOME=/usr/local/openjdk-17
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+# Verify installation
+RUN java -version && javac -version
+
+# Default command
+CMD ["java", "-version"]

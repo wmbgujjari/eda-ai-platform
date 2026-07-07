@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-daily-demand-worker
+  namespace: eda-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-daily-demand
+  template:
+    metadata:
+      labels:
+        app: celery-daily-demand
+    spec:
+      containers:
+        - name: celery-daily-demand
+          image: eda-fastapi:latest
+          imagePullPolicy: IfNotPresent
+
+          command: ["celery"]
+          args:
+            - -A
+            - FG.tasks.daily_demand_tasks
+            - worker
+            - -l
+            - info
+            - -Q
+            - daily_demand_queue
+            - --concurrency=2
+            - --prefetch-multiplier=1
+
+          env:
+            - name: C_FORCE_ROOT
+              value: "true"
+            - name: SPARK_DRIVER_MEMORY
+              value: "2g"
+            - name: SPARK_EXECUTOR_MEMORY
+              value: "2g"
+            - name: OMP_NUM_THREADS
+              value: "2"
+            - name: TF_CPP_MIN_LOG_LEVEL
+              value: "2"
+
+          envFrom:
+            - configMapRef:
+                name: eda-config
+            - secretRef:
+                name: eda-secret
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
